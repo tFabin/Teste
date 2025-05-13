@@ -1,0 +1,95 @@
+---
+title: "R6"
+author: "Fabiano Junior"
+date: "2025-04-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Kills
+porchat_kills <- c(5, 7, 7, 8, 8, 9, 2, 2, 5, 6, 6, 4, 3, 6, 2, 6, 8, 1, 11, 3, 2, 7, 6, 3, 9, 4, 6)
+leo_kills     <- c(1, 3, 5, 5, 9, 3, 2, 5, 4, 4, 2, 4, 5, 3, 3, 3, 7, 4, 2, 5, 7, 3, 4, 2, 0, 7, 5)
+jordo_kills   <- c(2, 4, 9, 4, 7, 1, 3, 0, 9, 5, 1, 8, 1, 4, 3, 1, 4, 4, 3, 5, 2, 6, 3, 5, 3, 4, 4)
+
+# Mortes
+porchat_mortes <- c(5, 4, 5, 6, 6, 4, 4, 4, 4, 3, 5, 5, 4, 2, 4, 4, 4, 4, 6, 3, 4, 3, 5, 4, 4, 5, 6)
+jordo_mortes   <- c(5, 4, 6, 7, 4, 5, 4, 3, 4, 3, 4, 4, 4, 1, 6, 4, 3, 3, 6, 4, 4, 3, 3, 5, 4, 4, 6)
+leo_mortes     <- c(4, 5, 7, 5, 4, 5, 4, 4, 2, 3, 4, 2, 4, 3, 5, 4, 2, 3, 7, 4, 5, 2, 4, 4, 4, 3, 6)
+
+# Assists
+porchat_assists <- c(0, 2, 3, 0, 3, 0, 0, 0, 1, 4, 1, 2, 2, 1, 2, 3, 3, 2, 2, 1, 2, 0, 3, 2, 0, 1, 2)
+leo_assists     <- c(1, 2, 0, 2, 1, 3, 0, 0, 1, 3, 0, 1, 0, 1, 4, 2, 1, 2, 0, 1, 2, 2, 1, 1, 4, 1, 1)
+jordo_assists   <- c(0, 0, 3, 1, 4, 1, 0, 1, 2, 1, 2, 1, 1, 1, 0, 1, 2, 2, 2, 2, 0, 0, 1, 0, 1, 1, 1)
+
+# Pontos
+porchat_pts <- c(1470, 1875, 2445, 2140, 4855, 1855, 755, 1010, 1525, 4170, 1700, 3675, 1075, 3940, 1075, 3955, 4245, 3250, 4605, 3350, 1130, 3820, 4150, 1270, 1605, 3535, 1935)
+leo_pts     <- c(1045, 1565, 1925, 1860, 4680, 1575, 752, 1265, 1685, 3765, 1140, 3643, 1265, 3905, 1710, 3770, 4175, 3940, 4135, 3660, 1800, 3680, 3810, 1235, 1025, 3945, 1940)
+jordo_pts   <- c(875, 1470, 2555, 1510, 4751, 1008, 755, 655, 2057, 3642, 1175, 4129, 825, 3833, 1100, 3210, 3625, 3690, 3865, 3690, 900, 3690, 3620, 1325, 1115, 3731, 1725)
+
+```
+```{r}
+porchat = data.frame(
+  pts = porchat_pts,
+  kills = porchat_kills,
+  mortes = porchat_mortes,
+  assists = porchat_assists
+)
+
+leo = data.frame(
+  pts = leo_pts,
+  kills = leo_kills,
+  mortes = leo_mortes,
+  assists = leo_assists
+)
+
+jordo = data.frame(
+  pts = jordo_pts,
+  kills = jordo_kills,
+  mortes = jordo_mortes,
+  assists = jordo_assists
+)
+```
+
+
+
+```{r}
+Total_stats = function(x, nome_jogador){
+  kills = sum(x$kills)
+  mortes = sum(x$mortes)
+  assists = sum(x$assists)
+  pts = sum(x$pts)
+  
+  kda = kills / mortes
+  participacao_morte = (assists + kills) / mortes
+  
+  stats = data.frame(
+    Pontos = round(pts, 2),
+    Kills = round(kills, 2),
+    Mortes = round(mortes, 2),
+    Assists = round(assists, 2),
+    Kda = round(kda, 2),
+    Participacao_Morte = round(participacao_morte, 2)
+  )
+  
+  nome_variavel = paste0("Stats_", nome_jogador)
+  assign(nome_variavel, stats, envir = .GlobalEnv)
+}
+
+tudo = function(x, nome_jogador) {
+  Total_stats(x, nome_jogador)
+}
+
+tudo(jordo, "a")
+tudo(porchat, "b")
+tudo(leo, "c")
+
+todos = rbind(Stats_a, Stats_b, Stats_c)
+```
+
+
+
