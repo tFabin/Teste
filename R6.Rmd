@@ -91,6 +91,7 @@ tudo(leo, "c")
 todos = rbind(Stats_a, Stats_b, Stats_c)
 teste
 teste fabiano
+teste joao 
 ```
 
 
